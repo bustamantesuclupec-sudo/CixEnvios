@@ -24,4 +24,11 @@
   "ciudadDestino" : "chiclayo",
   "estado" : 400,
   "error" : "El campo pesoKg debe ser un número mayor que cero."
+}, {
+  "fecha" : "2026-11-25T22:21:54.549495400Z",
+  "pesoKg" : 7.5,
+  "ciudadDestino" : "lambayeque",
+  "estado" : 200,
+  "costoEnvio" : 20.00,
+  "diasEstimados" : 1
 } ]
