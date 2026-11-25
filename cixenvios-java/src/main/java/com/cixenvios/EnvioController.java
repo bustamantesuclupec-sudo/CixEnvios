@@ -113,7 +113,7 @@ public class EnvioController {
 
         if (peso.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException(
-                "El campo pesoKg debe ser un número mayor que cero."
+                "El peso debe ser mayor a 0."
             );
         }
 

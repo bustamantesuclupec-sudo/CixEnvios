@@ -3,6 +3,25 @@
   "pesoKg" : 2.5,
   "ciudadDestino" : "chiclayo",
   "estado" : 200,
-  "costoEnvio" : 6.50,
+  "costoEnvio" : 6.5,
   "diasEstimados" : 1
+}, {
+  "fecha" : "2026-11-25T16:40:18.841296700Z",
+  "pesoKg" : 3.2,
+  "ciudadDestino" : "motupe",
+  "estado" : 200,
+  "costoEnvio" : 14.4,
+  "diasEstimados" : 1
+}, {
+  "fecha" : "2026-11-25T16:53:47.406728700Z",
+  "pesoKg" : 0,
+  "ciudadDestino" : "chiclayo",
+  "estado" : 400,
+  "error" : "El campo pesoKg debe ser un número mayor que cero."
+}, {
+  "fecha" : "2026-11-25T16:55:22.217345600Z",
+  "pesoKg" : 0,
+  "ciudadDestino" : "chiclayo",
+  "estado" : 400,
+  "error" : "El campo pesoKg debe ser un número mayor que cero."
 } ]

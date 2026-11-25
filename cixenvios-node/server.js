@@ -72,10 +72,10 @@ app.post("/api/envios/calcular", (req, res) => {
     pesoKg <= 0
   ) {
     registrar(400, {
-      error: "El campo pesoKg debe ser un número mayor que cero."
+      error: "El peso debe ser mayor a 0."
     });
     return res.status(400).json({
-      error: "El campo pesoKg debe ser un número mayor que cero."
+      error: "El peso debe ser mayor a 0."
     });
   }
 
