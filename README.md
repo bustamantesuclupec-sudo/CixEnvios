@@ -79,7 +79,7 @@ Las tarifas y los tiempos de entrega son ficticios.
 
 ## Autores
 
-Bustamante Suclupe Carlos
-Lozano Vasquez Heidy
-Miñan Gonzalez Danna
-Zamora Segura Marcos
+- Bustamante Suclupe Carlos
+- Lozano Vasquez Heidy
+- Miñan Gonzalez Danna
+- Zamora Segura Marcos
