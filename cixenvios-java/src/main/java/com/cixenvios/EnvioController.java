@@ -2,6 +2,12 @@ package com.cixenvios;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -14,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/envios")
@@ -29,6 +38,11 @@ public class EnvioController {
         BigDecimal costoEnvio,
         int diasEstimados
     ) {}
+
+    private static final Path ARCHIVO_SOLICITUDES =
+        Path.of("Solicitudes.json");
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final Map<String, Tarifa> TARIFAS = Map.of(
         "chiclayo", new Tarifa(
@@ -51,6 +65,26 @@ public class EnvioController {
     @PostMapping("/calcular")
     public RespuestaEnvio calcular(
         @RequestBody Map<String, Object> datos
+    ) {
+        try {
+            RespuestaEnvio respuesta = procesar(datos);
+
+            registrarSolicitud(datos, 200, Map.of(
+                "costoEnvio", respuesta.costoEnvio(),
+                "diasEstimados", respuesta.diasEstimados()
+            ));
+
+            return respuesta;
+        } catch (IllegalArgumentException ex) {
+            registrarSolicitud(datos, 400, Map.of(
+                "error", ex.getMessage()
+            ));
+            throw ex;
+        }
+    }
+
+    private RespuestaEnvio procesar(
+        Map<String, Object> datos
     ) {
         if (datos == null) {
             throw new IllegalArgumentException(
@@ -104,6 +138,55 @@ public class EnvioController {
             .setScale(2, RoundingMode.HALF_UP);
 
         return new RespuestaEnvio(costo, tarifa.dias());
+    }
+
+    private void registrarSolicitud(
+        Map<String, Object> datos,
+        int estado,
+        Map<String, Object> detalle
+    ) {
+        try {
+            List<Map<String, Object>> solicitudes =
+                new ArrayList<>();
+
+            if (Files.exists(ARCHIVO_SOLICITUDES)) {
+                String contenido =
+                    Files.readString(ARCHIVO_SOLICITUDES);
+
+                if (!contenido.isBlank()) {
+                    solicitudes = objectMapper.readValue(
+                        contenido,
+                        new TypeReference<
+                            List<Map<String, Object>>
+                        >() {}
+                    );
+                }
+            }
+
+            Map<String, Object> registro =
+                new LinkedHashMap<>();
+            registro.put("fecha", Instant.now().toString());
+
+            if (datos != null) {
+                registro.put("pesoKg", datos.get("pesoKg"));
+                registro.put(
+                    "ciudadDestino", datos.get("ciudadDestino"));
+            }
+
+            registro.put("estado", estado);
+            registro.putAll(detalle);
+            solicitudes.add(registro);
+
+            Files.writeString(
+                ARCHIVO_SOLICITUDES,
+                objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(solicitudes)
+            );
+        } catch (Exception ex) {
+            System.err.println(
+                "Error registrando solicitud: " + ex
+            );
+        }
     }
 }
 
