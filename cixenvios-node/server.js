@@ -6,6 +6,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 const tarifas = new Map([
   ["chiclayo", { base: 4, precioKg: 1, dias: 1 }],

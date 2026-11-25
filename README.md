@@ -1,14 +1,7 @@
 # CixEnvios
 
-API educativa para calcular el costo y el tiempo estimado de envío
+API Node.js con Express para calcular el costo y el tiempo estimado de envío
 de paquetes desde Chiclayo hacia diferentes ciudades del Perú.
-
-## Tecnologías
-
-El repositorio contiene dos implementaciones independientes:
-
-- Java con Spring Boot.
-- Node.js con Express.
 
 ## Operación
 
@@ -49,29 +42,44 @@ costoEnvio = tarifaBase + (pesoKg × precioPorKg)
 - El peso debe ser un número mayor que cero.
 - La ciudad debe ser un texto no vacío.
 - El destino debe encontrarse dentro de la cobertura definida.
+- El formulario muestra errores y la API vuelve a validar los datos recibidos.
 
 ## Ejecución
 
-### Java
+En Windows, desde la raíz del repositorio:
 
-Desde la carpeta java:
+```powershell
+cd .\cixenvios-node
+npm install
+npm start
+```
 
-Windows:
-    .\mvnw.cmd spring-boot:run
+El servidor escucha en `http://localhost:3000`. Mantén abierta esa terminal
+mientras usas la API.
 
-Linux o macOS:
-    ./mvnw spring-boot:run
+Abre `http://localhost:3000` en el navegador para usar el formulario. La página
+envía los datos a la API de Node.
 
-Puerto: 8080.
+## Probar la API
 
-### Node.js
+Envía una solicitud `POST` a `http://localhost:3000/api/envios/calcular`
+con un cuerpo JSON:
 
-Desde la carpeta node:
+```json
+{
+  "pesoKg": 2.5,
+  "ciudadDestino": "Motupe"
+}
+```
 
-    npm install
-    node server.js
+En PowerShell puedes probarla desde otra terminal:
 
-Puerto: 3000.
+```powershell
+Invoke-RestMethod -Method Post `
+  -Uri http://localhost:3000/api/envios/calcular `
+  -ContentType "application/json" `
+  -Body '{"pesoKg":2.5,"ciudadDestino":"Motupe"}'
+```
 
 ## Nota
 
