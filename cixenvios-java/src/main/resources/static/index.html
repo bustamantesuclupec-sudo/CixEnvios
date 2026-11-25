@@ -120,9 +120,10 @@
           <input
             id="pesoKg"
             name="pesoKg"
-            type="number"
-            min="0.01"
-            step="0.01"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="Ej. 2.5"
             required
           />
         </div>
@@ -144,13 +145,42 @@
     <script>
       const formulario = document.getElementById("formulario");
       const resultado = document.getElementById("resultado");
+      const campoPeso = document.getElementById("pesoKg");
+
+      function pesoSoloPositivo(valor) {
+        const limpio = String(valor).replace(/[^\d.]/g, "");
+        const [entero, ...decimales] = limpio.split(".");
+        if (decimales.length === 0) {
+          return entero;
+        }
+        return entero + "." + decimales.join("");
+      }
+
+      campoPeso.addEventListener("keydown", (evento) => {
+        if (evento.key === "+" || evento.key === "-" || evento.key === " ") {
+          evento.preventDefault();
+        }
+      });
+
+      campoPeso.addEventListener("input", () => {
+        campoPeso.value = pesoSoloPositivo(campoPeso.value);
+      });
+
+      campoPeso.addEventListener("paste", (evento) => {
+        evento.preventDefault();
+        const texto = (evento.clipboardData || window.clipboardData).getData(
+          "text"
+        );
+        campoPeso.value = pesoSoloPositivo(texto);
+      });
 
       formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
         resultado.className = "";
         resultado.textContent = "Calculando…";
 
-        const pesoKg = Number(document.getElementById("pesoKg").value);
+        campoPeso.value = pesoSoloPositivo(campoPeso.value);
+        const pesoKg = Number(campoPeso.value);
         const ciudadDestino = document.getElementById("ciudadDestino").value;
 
         try {

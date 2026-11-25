@@ -72,12 +72,3 @@ Desde la carpeta node:
     node server.js
 
 Puerto: 3000.
-
-## Nota
-
-Las tarifas y los tiempos de entrega son ficticios.
-El proyecto se desarrolla con fines educativos.
-
-## Autor
-
-Carlos Bustamante Suclupe
