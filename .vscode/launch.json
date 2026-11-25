@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CixenviosApplication<cixenvios>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.cixenvios.CixenviosApplication",
+            "projectName": "cixenvios",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
