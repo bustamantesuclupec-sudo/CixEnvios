@@ -153,7 +153,8 @@
         if (decimales.length === 0) {
           return entero;
         }
-        return entero + "." + decimales.join("");
+        const soloUnDecimal = decimales.join("").slice(0, 1);
+        return entero + "." + soloUnDecimal;
       }
 
       campoPeso.addEventListener("keydown", (evento) => {
